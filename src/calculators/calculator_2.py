@@ -14,10 +14,10 @@ class Calculator2:
 
     def __validate_body(self, body: dict) -> list[float]:
         if "numbers" not in body:
-            raise ValueError("Missing 'number' in request body")
+            raise ValueError("Missing 'numbers' in request body")
         input_data = body.get("numbers")
         return input_data
-    def __process_data(self, input_data: list[float]):
+    def __process_data(self, input_data: list[float]) -> float:
         numbers = [(number * 11) ** 0.95 for number in input_data]
         result = self.__driver_handler.standard_derivation(numbers).__float__()
         return 1 / result
