@@ -1,4 +1,6 @@
 from flask.wrappers import Request
+from ..errors.http_unprocessable_entity import HttpUnprocessableEntityError
+from ..errors.http_bad_request import HttpBadRequestError
 
 class Calculator1:
     def calculate(self, request: Request) -> dict:
@@ -13,10 +15,10 @@ class Calculator1:
     
     def __validate_body(self, body: dict) -> float:
         if "number" not in body:
-            raise ValueError("Missing 'number' in request body")
+            raise HttpUnprocessableEntityError("Missing 'number' in request body")
         input_data = body["number"]
         if not isinstance(input_data, (int, float)):
-            raise TypeError("'number' must be an integer or float")
+            raise HttpBadRequestError("'number' must be an integer or float")
         return float(input_data)
     
     def __first_process(self, number: float) -> float:
