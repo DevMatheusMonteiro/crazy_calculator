@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from ..factories.calculator1_factory import Calculator1Factory
 from ..factories.calculator2_factory import Calculator2Factory
 from ..factories.calculator3_factory import Calculator3Factory
+from ..factories.calculator4_factory import Calculator4Factory
 from ...errors.error_controller import ErrorController
 
 class CalculatorsRoutes():
@@ -33,6 +34,16 @@ class CalculatorsRoutes():
     def __calculator_3():
         try:
             calc = Calculator3Factory().create()
+            response = calc.calculate(request)
+            return jsonify(response), 200
+        except Exception as e:
+            error = ErrorController.handle_errors(e)
+            return jsonify(error["body"]), error["status_code"]
+    
+    @calc_route_bp.route('/calculator/4', methods=['POST'])
+    def __calculator_4():
+        try:
+            calc = Calculator4Factory().create()
             response = calc.calculate(request)
             return jsonify(response), 200
         except Exception as e:
